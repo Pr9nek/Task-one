@@ -11,7 +11,7 @@ interface GetStocksQuery {
 }
 
 class InventoryController {
-    async createProduct(req: Request, res: Response, next: NextFunction) {
+    async addProduct(req: Request, res: Response, next: NextFunction) {
         try {
             const { plu, name } = req.body;
             const product = await inventoryService.createProduct({ plu, name });
@@ -21,7 +21,7 @@ class InventoryController {
         }
     }
 
-    async createStock(req: Request, res: Response, next: NextFunction) {
+    async addStock(req: Request, res: Response, next: NextFunction) {
         try {
             const { productId, shopId, shelfQty, orderQty } = req.body;
             const stock = await inventoryService.createStock({
@@ -36,7 +36,7 @@ class InventoryController {
         }
     }
 
-    async increaseStock(req: Request, res: Response, next: NextFunction) {
+    async updateStockIncrease(req: Request, res: Response, next: NextFunction) {
         try {
             const { id } = req.params;
             const { quantity } = req.body;
@@ -47,7 +47,7 @@ class InventoryController {
         }
     }
 
-    async decreaseStock(req: Request, res: Response, next: NextFunction) {
+    async updateStockDecrease(req: Request, res: Response, next: NextFunction) {
         try {
             const { id } = req.params;
             const { quantity } = req.body;
