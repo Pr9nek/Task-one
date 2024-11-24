@@ -47,7 +47,7 @@ class InventoryService {
             const product = await Product.findByPk(stockData.productId);
             await axios.post(HISTORY_SERVICE_URL, {
                 stockId: stock.id,
-                action: 'creation',
+                action: 'stock_creation',
                 quantity: stock.shelfQty + stock.orderQty,
                 shopId: stockData.shopId,
                 plu: product?.plu,
