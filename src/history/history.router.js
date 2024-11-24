@@ -3,7 +3,7 @@ import historyController from './history.controller';
 
 const historyRouter = express.Router();
 
-historyRouter.post('/history', historyController.createHistoryRecord);
-historyRouter.get('/history', historyController.getHistory);
+historyRouter.post('/', historyController.createHistoryRecord);
+historyRouter.get('/', historyController.getHistory);
 
 export default historyRouter; 
