@@ -1,4 +1,4 @@
-const historyService = require('./history.service');
+import historyService from './history.service.js';
 
 class HistoryController {
     async createHistoryRecord(req, res, next) {

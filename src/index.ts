@@ -1,7 +1,7 @@
+import router from './router.js';
 import express from 'express';
-import router from './router';
-import errorHandler from './middlewares/error-handler';
-import { sequelize } from './db';
+import errorHandler from './middlewares/error-handler.js';
+import { sequelize } from './db.js';
 
 const app = express();
 const port = 3000;

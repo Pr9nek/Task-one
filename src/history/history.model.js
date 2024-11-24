@@ -1,13 +1,13 @@
-const {
+import {
     DataTypes,
     Model
-} = require('sequelize');
-const {
+} from 'sequelize';
+import {
     sequelize
-} = require('../db');
-const {
+}  from '../db';
+import {
     Stock
-} = require('../inventory/inventory.model');
+} from '../inventory/inventory.model';
 
 class StockHistory extends Model {}
 
@@ -59,6 +59,5 @@ StockHistory.init({
     modelName: 'StockHistory',
 });
 
-export {
-    StockHistory
-};
+export default StockHistory
+;

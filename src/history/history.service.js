@@ -1,9 +1,9 @@
-const {
+import {
     StockHistory
-} = require('./history.model');
-const {
+} from './history.model.js';
+import {
     Op
-} = require('sequelize');
+} from 'sequelize';
 
 class HistoryService {
     async createHistoryRecord(data) {
