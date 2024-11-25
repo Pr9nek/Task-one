@@ -53,7 +53,7 @@ StockHistory.init({
         allowNull: true,
     },
 }, {
-    db,
+    sequelize: db,
     modelName: 'StockHistory',
 });
 

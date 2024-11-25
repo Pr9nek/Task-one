@@ -50,6 +50,7 @@ Stock.init(
         productId: {
             type: DataTypes.INTEGER,
             allowNull: false,
+            unique: true,
             references: {
                 model: Product,
                 key: 'id',
