@@ -2,9 +2,7 @@ import {
     DataTypes,
     Model
 } from 'sequelize';
-import {
-    sequelize
-}  from '../db';
+import db from '../db';
 import {
     Stock
 } from '../inventory/inventory.model';
@@ -55,9 +53,8 @@ StockHistory.init({
         allowNull: true,
     },
 }, {
-    sequelize,
+    db,
     modelName: 'StockHistory',
 });
 
-export default StockHistory
-;
+export default StockHistory;

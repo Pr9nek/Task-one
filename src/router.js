@@ -1,6 +1,6 @@
 import express from 'express';
-import inventoryRouter from './inventory/inventory.router';
-import historyRouter from './history/history.router';
+import inventoryRouter from './inventory/inventory.router.ts';
+import historyRouter from './history/history.router.js';
 
 const router = express.Router();
 

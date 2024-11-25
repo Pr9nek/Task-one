@@ -1,6 +1,4 @@
-import {
-    StockHistory
-} from './history.model.js';
+import StockHistory from './history.model.js';
 import {
     Op
 } from 'sequelize';

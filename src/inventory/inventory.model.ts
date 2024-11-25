@@ -2,9 +2,7 @@ import {
     DataTypes,
     Model
 } from 'sequelize';
-import {
-    sequelize
-} from '../db';
+import sequelize from '../db';
 
 class Product extends Model {
     declare id: number;

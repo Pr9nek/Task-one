@@ -4,7 +4,7 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 const { DB_PORT = '', DB_HOST, DB_USER = '', DB_PASSWORD, DB_DATABASE = '', DB_SYNCHRONIZE } = process.env;
 
-const sequelize = new Sequelize(
+const db = new Sequelize(
     DB_DATABASE,
     DB_USER,
     DB_PASSWORD,
@@ -17,7 +17,7 @@ const sequelize = new Sequelize(
 );
 
 if (DB_SYNCHRONIZE === 'true') {
-    sequelize.sync();
+    db.sync();
 }
 
-export { sequelize };
+export default db;

@@ -1,7 +1,7 @@
 import router from './router.js';
 import express from 'express';
-import errorHandler from './middlewares/error-handler.js';
-import { sequelize } from './db.js';
+import db from './db';
+import errorHandler from './middlewares/error-handler';
 
 const app = express();
 const port = 3000;
@@ -13,11 +13,11 @@ app.use(errorHandler);
 
 (async () => {
     try {
-        await sequelize.authenticate();
+        await db.authenticate();
         console.log('Connection to the database has been established successfully.');
 
         if (process.env.DB_SYNCHRONIZE === 'true') {
-            await sequelize.sync();
+            await db.sync();
             console.log('Database synchronized.');
         }
 
@@ -25,6 +25,6 @@ app.use(errorHandler);
             console.log(`Server is running on port ${port}`);
         });
     } catch (error) {
-        console.error('Unable to connect to the database:', error); 1
+        console.error('Unable to connect to the database:', error); 
     }
 })();
