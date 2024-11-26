@@ -50,7 +50,6 @@ Stock.init(
         productId: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            unique: true,
             references: {
                 model: Product,
                 key: 'id',
@@ -76,5 +75,8 @@ Stock.init(
         modelName: 'Stock',
     }
 );
+
+Product.hasMany(Stock, { foreignKey: 'productId', as: 'stocks' });
+Stock.belongsTo(Product, { foreignKey: 'productId', as: 'product' });
 
 export { Product, Stock }; 

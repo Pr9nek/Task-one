@@ -92,25 +92,25 @@ class InventoryController {
         }
     }
 
-    async deleteProduct(req: Request, res: Response, next: NextFunction) {
-        try {
-            const { id } = req.params;
-            await inventoryService.deleteProduct(Number(id));
-            res.status(204).send();
-        } catch (error) {
-            next(error);
-        }
-    }
+    // async deleteProduct(req: Request, res: Response, next: NextFunction) {
+    //     try {
+    //         const { id } = req.params;
+    //         await inventoryService.deleteProduct(Number(id));
+    //         res.status(204).send();
+    //     } catch (error) {
+    //         next(error);
+    //     }
+    // }
 
-    async deleteStock(req: Request, res: Response, next: NextFunction) {
-        try {
-            const { id } = req.params;
-            await inventoryService.deleteStock(Number(id));
-            res.status(204).send();
-        } catch (error) {
-            next(error);
-        }
-    }
+    // async deleteStock(req: Request, res: Response, next: NextFunction) {
+    //     try {
+    //         const { id } = req.params;
+    //         await inventoryService.deleteStock(Number(id));
+    //         res.status(204).send();
+    //     } catch (error) {
+    //         next(error);
+    //     }
+    // }
 }
 
 export default new InventoryController();

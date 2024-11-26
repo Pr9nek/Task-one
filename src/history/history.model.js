@@ -4,7 +4,8 @@ import {
 } from 'sequelize';
 import db from '../db';
 import {
-    Stock
+    Stock,
+    Product
 } from '../inventory/inventory.model';
 
 class StockHistory extends Model {}
@@ -29,6 +30,8 @@ StockHistory.init({
         references: {
             model: Stock,
             key: 'productId',
+            // model: Product,
+            // key: 'id',
         },
     },
     action: {

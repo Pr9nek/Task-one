@@ -12,7 +12,7 @@ const db = new Sequelize(
         host: DB_HOST,
         port: parseInt(DB_PORT, 10),
         dialect: 'postgres',
-        logging: false,
+        logging: true,
     }
 );
 

@@ -8,7 +8,7 @@ inventoryRouter.patch('/stocks/:id/increase', InventoryController.updateStockInc
 inventoryRouter.patch('/stocks/:id/decrease', InventoryController.updateStockDecrease); // Используем /stocks/:id
 inventoryRouter.get('/stocks', InventoryController.getStocks); // Используем /stocks
 inventoryRouter.get('/products', InventoryController.getProducts);
-inventoryRouter.delete('/products/:id', InventoryController.deleteProduct);
-inventoryRouter.delete('/stocks/:id', InventoryController.deleteStock); // Используем /stocks/:id
+// inventoryRouter.delete('/products/:id', InventoryController.deleteProduct);
+// inventoryRouter.delete('/stocks/:id', InventoryController.deleteStock); 
 
 export default inventoryRouter;

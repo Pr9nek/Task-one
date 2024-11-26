@@ -22,7 +22,7 @@ class InventoryService {
         const product = await Product.create(productData);
 
         try {
-            await axios.post('http://localhost:3001/history', {
+            await axios.post(HISTORY_SERVICE_URL, {
                 productId: product.id,
                 action: 'product_creation',
                 quantity: 1,
@@ -51,101 +51,137 @@ class InventoryService {
                 quantity: stock.shelfQty + stock.orderQty,
                 shopId: stockData.shopId,
                 plu: product?.plu,
+                productID: stockData?.productId,
             });
         } catch (error) {
             console.error('Ошибка отправки сообщения в сервис истории:', error);
+            throw error;
         }
 
         return stock;
     }
 
-    async deleteProduct(id: number) {
-        const product = await Product.findByPk(id);
-        if (!product) {
-            throw new Error('Товар не найден');
-        }
+    // async deleteProduct(id: number) {
+    //     const product = await Product.findByPk(id);
+    //     if (!product) {
+    //         throw new Error('Товар не найден');
+    //     }
 
-        try {
-            await axios.post(HISTORY_SERVICE_URL, {
-                productId: product.id,
-                action: 'product_deletion',
-                quantity: 1,
-                plu: product.plu, // Добавляем plu
-            });
-        } catch (error) {
-            console.error('Ошибка отправки сообщения в сервис истории:', error);
-        }
+    //     try {
+    //         await axios.post(HISTORY_SERVICE_URL, {
+    //             productId: product.id,
+    //             action: 'product_deletion',
+    //             quantity: 1,
+    //             plu: product.plu, // Добавляем plu
+    //         });
+    //     } catch (error) {
+    //         console.error('Ошибка отправки сообщения в сервис истории:', error);
+    //     }
 
-        await product.destroy();
-    }
+    //     await product.destroy();
+    // }
 
-    async deleteStock(id: number) {
-        const stock = await Stock.findByPk(id);
-        if (!stock) {
-            throw new Error('Остаток не найден');
-        }
+    // async deleteStock(id: number) {
+    //     const stock = await Stock.findByPk(id);
+    //     if (!stock) {
+    //         throw new Error('Остаток не найден');
+    //     }
 
-        try {
-            const product = await Product.findByPk(stock.productId); // Получаем товар
-            await axios.post(HISTORY_SERVICE_URL, {
-                stockId: stock.id,
-                action: 'stock_deletion',
-                quantity: -(stock.shelfQty + stock.orderQty),
-                shopId: stock.shopId, // Добавляем shopId
-                plu: product?.plu, // Добавляем plu (с проверкой на null)
-            });
-        } catch (error) {
-            console.error('Ошибка отправки сообщения в сервис истории:', error);
-        }
+    //     try {
+    //         const product = await Product.findByPk(stock.productId); // Получаем товар
+    //         await axios.post(HISTORY_SERVICE_URL, {
+    //             stockId: stock.id,
+    //             action: 'stock_deletion',
+    //             quantity: -(stock.shelfQty + stock.orderQty),
+    //             shopId: stock.shopId, // Добавляем shopId
+    //             plu: product?.plu, // Добавляем plu (с проверкой на null)
+    //         });
+    //     } catch (error) {
+    //         console.error('Ошибка отправки сообщения в сервис истории:', error);
+    //     }
 
-        await stock.destroy();
-    }
+    //     await stock.destroy();
+    // }
 
     async getStocks(params: GetStocksParams) {
         const { plu, shopId, shelfQtyFrom, shelfQtyTo, orderQtyFrom, orderQtyTo } = params;
-        const whereClause: any = {};
-
-        if (plu) {
-            whereClause['$product.plu$'] = plu;
-        }
+        const whereClause: any = {}; // Условие для таблицы Stock
+    
         if (shopId) {
             whereClause.shopId = shopId;
         }
+    
         if (shelfQtyFrom) {
             whereClause.shelfQty = { [Op.gte]: shelfQtyFrom };
         }
         if (shelfQtyTo) {
-            whereClause.shelfQty = { [Op.lte]: shelfQtyTo };
+            whereClause.shelfQty = {
+                ...whereClause.shelfQty,
+                [Op.lte]: shelfQtyTo,
+            };
         }
+    
         if (orderQtyFrom) {
             whereClause.orderQty = { [Op.gte]: orderQtyFrom };
         }
         if (orderQtyTo) {
-            whereClause.orderQty = { [Op.lte]: orderQtyTo };
+            whereClause.orderQty = {
+                ...whereClause.orderQty,
+                [Op.lte]: orderQtyTo,
+            };
         }
-
+    
+        const include: any[] = [];
+        if (plu) {
+            include.push({
+                model: Product,
+                as: 'product', 
+                where: { plu }, 
+            });
+        } else {
+            include.push({
+                model: Product,
+                as: 'product', 
+            });
+        }
+    
         const stocks = await Stock.findAll({
             where: whereClause,
-            include: [Product],
+            include, 
         });
+    
         return stocks;
     }
+    
 
     async getProducts(params: GetProductsParams) {
         const { name, plu } = params;
         const whereClause: any = {};
 
         if (name) {
+            console.log("Искомое имя продукта:", name); 
             whereClause.name = { [Op.iLike]: `%${name}%` };
+            console.log("whereClause для поиска продуктов:", JSON.stringify(whereClause)); 
         }
         if (plu) {
             whereClause.plu = plu;
         }
 
-        const products = await Product.findAll({
-            where: whereClause,
-        });
-        return products;
+        try {
+            const products = await Product.findAll({
+                where: whereClause,
+            });
+            console.log("Найденные продукты:", products.map(product => product.toJSON())); 
+            return products;
+        } catch (error) {
+            console.error("Ошибка при поиске продуктов:", error);
+            throw error; // Передаем ошибку дальше для обработки
+        }
+
+        // const products = await Product.findAll({
+        //     where: whereClause,
+        // });
+        // return products;
     }
 
     async increaseStock(id: number, quantity: number) {
