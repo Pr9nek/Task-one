@@ -3,7 +3,6 @@
 1. endpoint inventory/products  в GET запросе не находит продукт по имени
 2. 'product_creation' не записывается в хистори сервисе
 3. endpoint inventory/stocks в POST запросе при использовании productId, который уже ,был задействован ранее в этом же endpoint, выдаёт {"message":"Validation error"}%
-4. В сервисе истории productId записываются как [null]
 
 # Нужно реализовать 2 сервиса.
 
