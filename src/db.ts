@@ -17,7 +17,14 @@ const db = new Sequelize(
 );
 
 if (DB_SYNCHRONIZE === 'true') {
-    db.sync();
+    db.sync({ alter: true }); //поменяем
 }
+
+// if (DB_SYNCHRONIZE === 'true')
+//     {
+//         await db.sync({ force: true }); // Добавляем force: true
+//         console.log('Database synchronized.');
+//     }
+
 
 export default db;

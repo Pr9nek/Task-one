@@ -28,10 +28,8 @@ StockHistory.init({
         type: DataTypes.INTEGER,
         allowNull: true,
         references: {
-            model: Stock,
-            key: 'productId',
-            // model: Product,
-            // key: 'id',
+            model: Product,
+            key: 'id',
         },
     },
     action: {

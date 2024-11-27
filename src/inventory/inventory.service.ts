@@ -42,16 +42,16 @@ class InventoryService {
         orderQty: number;
     }) {
         const stock = await Stock.create(stockData);
+        const product = await Product.findByPk(stockData.productId);
 
         try {
-            const product = await Product.findByPk(stockData.productId);
             await axios.post(HISTORY_SERVICE_URL, {
                 stockId: stock.id,
                 action: 'stock_creation',
                 quantity: stock.shelfQty + stock.orderQty,
                 shopId: stockData.shopId,
                 plu: product?.plu,
-                productID: stockData?.productId,
+                productId: product?.id,
             });
         } catch (error) {
             console.error('Ошибка отправки сообщения в сервис истории:', error);
