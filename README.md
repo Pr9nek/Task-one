@@ -1,7 +1,7 @@
 ## На данный момент в реализации есть 2 бага
 
 1. 'product_creation' не записывается в хистори сервисе
-2. endpoint inventory/stocks в POST запросе при использовании productId, который уже ,был задействован ранее в этом же endpoint, выдаёт {"message":"Validation error"}%
+2. endpoint inventory/stocks в POST запросе при использовании productId, который уже ,был задействован ранее в этом же endpoint, выдаёт {"message":"Validation error"}
 
 # Нужно реализовать 2 сервиса.
 
