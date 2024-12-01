@@ -27,6 +27,7 @@ StockHistory.init({
     productId: {
         type: DataTypes.INTEGER,
         allowNull: true,
+        // allowNull: false, // Обязательно для истории
         references: {
             model: Product,
             key: 'id',

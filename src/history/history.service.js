@@ -1,12 +1,39 @@
 import StockHistory from './history.model.js';
+import { Product } from '../inventory/inventory.model.js'; 
 import {
     Op
 } from 'sequelize';
 
 class HistoryService {
     async createHistoryRecord(data) {
-        const historyRecord = await StockHistory.create(data);
+
+        // const historyRecord = await StockHistory.create(data);
+        // return historyRecord;
+        try {
+            // Optional: Check if product exists before creating history record
+            const product = await Product.findByPk(data.productId);
+            
+            if (!product) {
+                console.warn(`Product with ID ${data.productId} not found`);
+                // You might choose to not create the history record or handle this differently
+                return null;
+            }
+    
+            // const historyRecord = await StockHistory.create(data);
+            // return historyRecord;
+
+            // Создаем запись истории
+        const historyRecord = await StockHistory.create({
+            ...data,
+            plu: data.plu || product.plu, // Если PLU не передано, берем из продукта
+        });
+
         return historyRecord;
+        
+        } catch (error) {
+            console.error('Error creating history record:', error);
+            throw error;
+        }
     }
 
     async getHistory(params) {

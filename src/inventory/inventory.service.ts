@@ -19,20 +19,39 @@ interface GetProductsParams {
 
 class InventoryService {
     async createProduct(productData: { plu: string; name: string }) {
-        const product = await Product.create(productData);
+        // const product = await Product.create(productData);
+    
+        // try {
+        //     await axios.post(HISTORY_SERVICE_URL, {
+        //         productId: product?.id,
+        //         action: 'product_creation',
+        //         quantity: 1,
+        //         plu: productData.plu,
+        //         stockId: null, 
+        //     });
+        // } catch (error) {
+        //     console.error('Ошибка отправки сообщения в сервис истории:', error);
+        // }
 
+        // return product;
         try {
-            await axios.post(HISTORY_SERVICE_URL, {
-                productId: product.id,
-                action: 'product_creation',
-                quantity: 1,
-                plu: productData.plu,
-            });
-        } catch (error) {
-            console.error('Ошибка отправки сообщения в сервис истории:', error);
-        }
+            const product = await Product.create(productData);
+    
+            if (product && product.id) {
+                await axios.post(HISTORY_SERVICE_URL, {
+                    productId: product.id,
+                    action: 'product_creation',
+                    quantity: 1,
+                    plu: product.plu,
+                    stockId: null, 
+                });
+            }   
 
-        return product;
+            return product;
+        } catch (error) {
+            console.error('Error creating product or history record:', error);
+            throw error;
+        }
     }
 
     async createStock(stockData: {

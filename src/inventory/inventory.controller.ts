@@ -83,8 +83,8 @@ class InventoryController {
         try {
             const { name, plu } = req.query;
             const products = await inventoryService.getProducts({
-                name: name as string,
-                plu: plu as string,
+                name: name ? String(name) : undefined,
+                plu: plu ? String(plu) : undefined,
             });
             res.json(products);
         } catch (error) {
